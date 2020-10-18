@@ -1,0 +1,30 @@
+{
+  "token": "NTU5OTMwNDkwNzA2OTg0OTYy.D3sjtw.lDccH0AajBMyjYNbP9f71BCyups",
+  "prefix": "^",
+  "statuses": [
+    "^8ball",
+    "^botinfo",
+    "^cat",
+    "^close",
+    "^dog",
+    "^help",
+    "^report",
+    "^serverinfo",
+    "^suggest",
+    "^ticket",
+    "^warnlevel"
+  ],
+  "embedColour": "#ff55ff",
+  "reportschannel": "reports",
+  "incidentschannel": "incidents",
+  "welcomechannel": "welcome-messages",
+  "leavechannel": "welcome-messages",
+  "suggestionschannel": "suggestions",
+  "loggingchannel": "event-logs",
+  "joinrole": "Member",
+  "rulesinfochannel": "info",
+  "guildidUNIMPLEMENTED": "468729993657057281",
+  "staffrole": "Staff",
+  "ticketcategory": "Tickets",
+  "announcementsChannel": "announcements"
+}
