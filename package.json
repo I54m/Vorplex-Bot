@@ -1,0 +1,17 @@
+{
+  "name": "vorplexbot",
+  "version": "1.0.0",
+  "description": "Discord bot for Vorplex Discord.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "I54m",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "mc-ping-updated": "^0.1.0",
+    "ms": "^2.1.1",
+    "superagent": "^3.8.3"
+  }
+}
