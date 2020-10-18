@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args) =>{
   .setThumbnail(bicon)
   .addField("Bot Name", bot.user.username)
   .addField("Created On", bot.user.createdAt)
-  .addField("Developer", "54mpenguin");
+  .addField("Developer", "I54m");
   return message.channel.send(botembed);
 }
 
