@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const botconfig = require("./../botconfig.json");
 
 module.exports.run = async (bot, message, args) => {
+    return message.reply("We are currently not taking suggestions! Thank you for your intrest though!");
     let suggestChannel = message.guild.channels.find("name", botconfig.suggestionschannel);
     if (!suggestChannel) return message.channel.send(`:x: Could not find the suggestions channel!`);
     let suggest = args.join(" ").slice(0);
