@@ -97,5 +97,5 @@ module.exports.run = async (bot) => {
 }
 
 module.exports.help = {
-  name: "ready"
+    name: "ready"
 }

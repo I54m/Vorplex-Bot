@@ -11,7 +11,7 @@ module.exports.run = async (bot, message, args) => {
     if (!ticketCategory) return message.channel.send(`:x: Could not find the tickets category!`);
 
     var subject = args.join(" ").slice(0);
-    if (!subject) subject = 'No Subject' 
+    if (!subject) subject = 'No Subject'
 
     if (tickets[message.author.id]) {
         if (tickets[message.author.id].ticket) {

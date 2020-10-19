@@ -20,9 +20,9 @@ module.exports.run = async (bot, message, args) => {
     message.delete();
 
     suggestChannel.send(embed).then(embedMessage => {
-	  embedMessage.react('👍');
-      embedMessage.react('👎');
-	});
+        embedMessage.react('👍');
+        embedMessage.react('👎');
+    });
 }
 
 module.exports.help = {

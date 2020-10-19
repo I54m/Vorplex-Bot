@@ -8,7 +8,7 @@ module.exports.run = async (bot, message, args) => {
 
     if (!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply("Sorry You can't do that!");
 
-    if(!message.channel.name.startsWith(`ticket-`)) return message.reply("Sorry but this is not a ticket channel, if you would like to close your current ticket then please go to the channel then try the command again");
+    if (!message.channel.name.startsWith(`ticket-`)) return message.reply("Sorry but this is not a ticket channel, if you would like to close your current ticket then please go to the channel then try the command again");
 
     message.channel.send(new Discord.RichEmbed().setColor(botconfig.embedColour).setDescription(`Ticket closing in 3 seconds...`));
     setTimeout(async function () {
@@ -27,7 +27,7 @@ module.exports.run = async (bot, message, args) => {
             fs.writeFile("./tickets.json", JSON.stringify(tickets), (err) => {
                 if (err) console.log(err)
             });
-        }       
+        }
         let loggingchannel = message.channel.guild.channels.find(`name`, botconfig.loggingchannel);
         if (!loggingchannel) return;
         let embedColour = botconfig.embedColour;

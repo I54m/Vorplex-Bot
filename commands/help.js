@@ -2,7 +2,7 @@ const botconfig = require("./../botconfig.json");
 const Discord = require("discord.js");
 const fs = require("fs");
 
-module.exports.run = async (bot, message, args) =>{
+module.exports.run = async (bot, message, args) => {
     let helpEmbed = new Discord.RichEmbed()
         .setDescription(`Commands <@${message.member.id}> has permission to use`)
         .setColor(botconfig.embedColour)
@@ -16,8 +16,8 @@ module.exports.run = async (bot, message, args) =>{
 }
 
 module.exports.help = {
-  name: "help",
-  permission: "NONE",
-  usage: "",
-  description: "View this help menu."
+    name: "help",
+    permission: "NONE",
+    usage: "",
+    description: "View this help menu."
 }

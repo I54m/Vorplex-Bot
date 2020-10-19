@@ -2,23 +2,23 @@ const botconfig = require("./../botconfig.json");
 const Discord = require("discord.js");
 const superagent = require("superagent");
 
-module.exports.run = async (bot, message, args) =>{
+module.exports.run = async (bot, message, args) => {
 
-  let {body} = await superagent
-  .get(`https://random.dog/woof.json`);
+    let { body } = await superagent
+        .get(`https://random.dog/woof.json`);
 
-  let dogembed = new Discord.RichEmbed()
-  .setColor(botconfig.embedColour)
-  .setDescription("Doggo")
-  .setImage(body.url);
+    let dogembed = new Discord.RichEmbed()
+        .setColor(botconfig.embedColour)
+        .setDescription("Doggo")
+        .setImage(body.url);
 
-  message.channel.send(dogembed)
+    message.channel.send(dogembed)
 
 }
 
 module.exports.help = {
-  name: "dog",
-  permission: "NONE",
-  usage: "",
-  description: "Retrieve a picture of a dog."
+    name: "dog",
+    permission: "NONE",
+    usage: "",
+    description: "Retrieve a picture of a dog."
 }
