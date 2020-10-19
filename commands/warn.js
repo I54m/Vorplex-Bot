@@ -5,7 +5,7 @@ const ms = require("ms");
 let warns = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));
 
 module.exports.run = async (bot, message, args) => {
-    if (!message.member.hasPermission("MANAGE_MEMBERS")) return message.reply("You can't do that!");
+    if (!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply("You can't do that!");
     let wUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     if (!wUser) return message.reply("Couldn't find that user!");
     if (wUser.hasPermission("MANAGE_MESSAGES")) return message.reply("You can't warn them!");
@@ -60,7 +60,7 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.help = {
     name: "warn",
-    permission: "MANAGE_MEMBERS",
+    permission: "MANAGE_MESSAGES",
     usage: "<@user> <reason>",
     description: "Warn a player for beaking the rules."
 }
