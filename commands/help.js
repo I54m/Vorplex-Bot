@@ -9,7 +9,9 @@ module.exports.run = async (bot, message, args) => {
         .addField("Key", "<> = required argument [] = optional argument");
 
     bot.commands.forEach((props) => {
-        if (message.member.hasPermission(props.help.permission))
+        if (props.help.permission === "NONE") {
+            helpEmbed.addField(`${botconfig.prefix}${props.help.name} ${props.help.usage}`, `${props.help.description}`);
+        } else if (message.member.hasPermission(props.help.permission))
             helpEmbed.addField(`${botconfig.prefix}${props.help.name} ${props.help.usage}`, `${props.help.description}`);
     })
     message.channel.send(helpEmbed);
