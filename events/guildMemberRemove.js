@@ -17,7 +17,7 @@ module.exports.run = async (bot, member) => {
   .setTitle(`**Goodbye ${member.displayName}!**`)
   .setColor(`${embedColour}`)
   .setDescription(message.replace(`{user}`, `${member.user.tag}`))
-  .setThumbnail("https://api.54mpenguin.com/Vorplex/Vorplex-Server-Icon-x1000.png")
+  .setThumbnail("https://api.54m.com/Vorplex/Vorplex-Server-Icon-x1000.png")
   .setFooter(`Total: ${member.guild.memberCount} members`);
   leavechannel.send(goodbyeEmbed);
 }

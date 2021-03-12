@@ -18,7 +18,7 @@ module.exports.run = async (bot, member) => {
   .setColor(`${embedColour}`)
   .setDescription(message.replace(`{user}`, `${member.user.tag}`))
   .addField("Rules & Info", `${member.guild.channels.find(`name`, botconfig.rulesinfochannel).toString()}`, true)
-  .setThumbnail("https://api.54mpenguin.com/Vorplex/Vorplex-Server-Icon-x1000.png")
+  .setThumbnail("https://api.i54m.com/Vorplex/Vorplex-Server-Icon-x1000.png")
   .setFooter(`Total: ${member.guild.memberCount} members`);
   welcomechannel.send(welcomeEmbed);
     if (!botconfig.joinrole) return console.log("Unable to find join role in config!");
