@@ -4,7 +4,7 @@ const messagelist = require("./../messages.json");
 
 module.exports.run = async (bot, member) => {
   let welcomechannel = member.guild.channels.find(`name`, botconfig.welcomechannel);
-  if (!welcomechannel) return;
+    if (!welcomechannel) return console.log("Unable to find welcome channel!");
   let embedColour = botconfig.embedColour;
   let messageArray = messagelist.welcomemessages;
   let messageNumber = Math.floor(Math.random() * messageArray.length);
@@ -21,7 +21,7 @@ module.exports.run = async (bot, member) => {
   .setThumbnail("https://api.54mpenguin.com/Vorplex/Vorplex-Server-Icon-x1000.png")
   .setFooter(`Total: ${member.guild.memberCount} members`);
   welcomechannel.send(welcomeEmbed);
-  if (!botconfig.joinrole) return;
+    if (!botconfig.joinrole) return console.log("Unable to find join role in config!");
   let joinrole = member.guild.roles.find(`name`, botconfig.joinrole);
   if (!joinrole) return console.log("Unable to find join role!");
   await(member.addRole(joinrole.id));
