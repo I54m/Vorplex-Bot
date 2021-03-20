@@ -55,4 +55,5 @@ bot.on("message", async message => {
 bot.login(botconfig.token).catch( () => {
     console.log(`Unable to login, token: ${botconfig.token} was rejected by discord auth servers!`);
     exit;
+
 });
