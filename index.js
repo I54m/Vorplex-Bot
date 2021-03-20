@@ -1,6 +1,7 @@
 const botconfig = require("./botconfig.json");
 const Discord = require("discord.js");
 const fs = require("fs");
+const { exit } = require("process");
 const bot = new Discord.Client({disableEveryone: false});
 bot.commands = new Discord.Collection();
 
@@ -51,4 +52,7 @@ bot.on("message", async message => {
   if(commandfile) commandfile.run(bot, message, args);
 });
 
-bot.login(botconfig.token);
+bot.login(botconfig.token).catch( () => {
+    console.log(`Unable to login, token: ${botconfig.token} was rejected by discord auth servers!`);
+    exit;
+});
