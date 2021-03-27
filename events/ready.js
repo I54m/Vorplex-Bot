@@ -10,7 +10,7 @@ module.exports.run = async (bot) => {
     let guild = bot.guilds.get(`${botconfig.guildid}`);
     setInterval(function () {
         let status = statuses[Math.floor(Math.random() * statuses.length)]
-        bot.user.setActivity(`${status}`, { type: "PLAYING" });
+        bot.user.setActivity(`${status}`, { type: "LISTENING" });
     }, 10000);
     /*
     Object.keys(advertisers).forEach((key, index, array) =>{
