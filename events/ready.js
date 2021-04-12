@@ -7,7 +7,6 @@ const fs = require("fs");
 module.exports.run = async (bot) => {
     console.log(`${bot.user.username} is online!`);
     let statuses = botconfig.statuses;
-    let guild = bot.guilds.get(`${botconfig.guildid}`);
     setInterval(function () {
         let status = statuses[Math.floor(Math.random() * statuses.length)]
         bot.user.setActivity(`${status}`, { type: "LISTENING" });
