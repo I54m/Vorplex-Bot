@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 const fs = require("fs");
 
 module.exports.run = async (bot, message, args) =>{
-    let helpEmbed = new Discord.RichEmbed()
+    let helpEmbed = new Discord.MessageEmbed()
         .setDescription(`Commands <@${message.member.id}> has permission to use`)
         .setColor(botconfig.embedColour)
         .addField("Key", "<> = required argument [] = optional argument");

@@ -41,7 +41,7 @@ module.exports.run = async (bot, message, args) => {
             SEND_MESSAGES: true
         })
 
-        let embed = new Discord.RichEmbed()
+        let embed = new Discord.MessageEmbed()
             .setDescription(`Dear ${message.author},\n\nThank you for reaching out to our staff team!
 We will get back to you as soon as possible.
 In the mean time please provide as much information as you can so that we can help you better!
@@ -52,7 +52,7 @@ In the mean time please provide as much information as you can so that we can he
             .setColor(botconfig.embedColour);
 
         c.send(embed);
-        message.channel.send(new Discord.RichEmbed().setColor(botconfig.embedColour).setDescription(`:white_check_mark: Your ticket has been created ${c}`));
+        message.channel.send(new Discord.MessageEmbed().setColor(botconfig.embedColour).setDescription(`:white_check_mark: Your ticket has been created ${c}`));
         setTimeout(async function () {
             tickets[message.author.id] = {
                 ticket: `${c.id}`
@@ -66,7 +66,7 @@ In the mean time please provide as much information as you can so that we can he
             let embedColour = botconfig.embedColour;
             let time = c.createdAt;
             let name = c.name;
-            let channelEmbed = new Discord.RichEmbed()
+            let channelEmbed = new Discord.MessageEmbed()
                 .setDescription(`${message.author} created a Ticket!`)
                 .setColor(embedColour)
                 .addField(`Ticket channel name`, `${name}`)

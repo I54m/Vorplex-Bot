@@ -38,7 +38,7 @@ module.exports.run = async (bot, message, args) => {
     let reason = args.join(" ");
     if (!reason) reason = "Manually Muted!";
     await(tomute.addRole(muterole.id));
-    let muteEmbed = new Discord.RichEmbed()
+    let muteEmbed = new Discord.MessageEmbed()
     .setDescription("~~Mute~~")
     .setColor("#f44a11")
     .addField("Muted User", `${tomute} with ID ${tomute.id}`)

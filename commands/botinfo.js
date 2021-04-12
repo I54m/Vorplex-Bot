@@ -4,7 +4,7 @@ const Discord = require("discord.js");
 module.exports.run = async (bot, message, args) =>{
   let embedColour = botconfig.embedColour;
   let bicon = bot.user.displayAvatarURL;
-  let botembed = new Discord.RichEmbed()
+  let botembed = new Discord.MessageEmbed()
   .setDescription("Bot Imformation")
   .setColor(`${embedColour}`)
   .setThumbnail(bicon)

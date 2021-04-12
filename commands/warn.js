@@ -42,7 +42,7 @@ if(warns[wUser.id].warns == 3){
   furtherAction = "Banned";
 }
 message.reply(`You have been warned for: ${reason} you now have ${warns[wUser.id].warns} warnings!`);
-let warnEmbed = new Discord.RichEmbed()
+let warnEmbed = new Discord.MessageEmbed()
 .setDescription("~~Warn~~")
 .setColor("#e5de16")
 .addField("Warned User", `<@${wUser.id}> with ID ${wUser.id}`)

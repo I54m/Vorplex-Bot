@@ -18,7 +18,7 @@ module.exports.run = async (bot, message, args) => {
     }
     let answerNumber = Math.floor(Math.random() * answerArray.length);
     let answer = answerArray[answerNumber];
-    let answerEmbed = new Discord.RichEmbed()
+    let answerEmbed = new Discord.MessageEmbed()
         .setDescription(`<@${user.id}> ${question}`)
         .setColor(embedColor)
         .addField(`Answer`, `${answer}`);

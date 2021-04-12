@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args) => {
 
     if(!message.channel.name.startsWith(`ticket-`)) return message.reply("Sorry but this is not a ticket channel, if you would like to close your current ticket then please go to the channel then try the command again");
 
-    message.channel.send(new Discord.RichEmbed().setColor(botconfig.embedColour).setDescription(`Ticket closing in 3 seconds...`));
+    message.channel.send(new Discord.MessageEmbed().setColor(botconfig.embedColour).setDescription(`Ticket closing in 3 seconds...`));
     setTimeout(async function () {
         let ticketOwner = "unknown";
         let keys = Object.keys(tickets);
@@ -33,7 +33,7 @@ module.exports.run = async (bot, message, args) => {
         let embedColour = botconfig.embedColour;
         let time = message.channel.createdAt;
         let name = message.channel.name;
-        let channelEmbed = new Discord.RichEmbed()
+        let channelEmbed = new Discord.MessageEmbed()
             .setDescription(`${message.author} closed a Ticket!`)
             .setColor(embedColour)
             .addField(`Ticket channel name`, `${name}`)

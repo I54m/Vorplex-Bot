@@ -13,7 +13,7 @@ module.exports.run = async (bot, member) => {
     let number = Math.floor(Math.random() * 3678);
     message = message.replace(`{number}`, `${number}`);
   }
-  let goodbyeEmbed = new Discord.RichEmbed()
+  let goodbyeEmbed = new Discord.MessageEmbed()
   .setTitle(`**Goodbye ${member.displayName}!**`)
   .setColor(`${embedColour}`)
   .setDescription(message.replace(`{user}`, `${member.user.tag}`))

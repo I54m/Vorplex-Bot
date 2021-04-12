@@ -8,7 +8,7 @@ module.exports.run = async (bot, message, args) => {
 
     if (!suggest) return message.channel.send(`:x:Please use \`${botconfig.prefix}suggest <message>\``);
 
-    let embed = new Discord.RichEmbed()
+    let embed = new Discord.MessageEmbed()
         .setTitle("Suggestion")
         .setAuthor(`Left by ${message.author.username}#${message.author.discriminator}`, message.author.displayAvatarURL)
         .setTimestamp()

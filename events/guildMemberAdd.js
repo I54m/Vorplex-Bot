@@ -18,7 +18,7 @@ module.exports.run = async (bot, member) => {
         let number = Math.floor(Math.random() * 3678);
         message = message.replace(`{number}`, `${number}`);
     }
-    let welcomeEmbed = new Discord.RichEmbed()
+    let welcomeEmbed = new Discord.MessageEmbed()
         .setTitle(`**Welcome ${member.displayName} to the Vorplex Server Discord!**`)
         .setColor(`${embedColour}`)
         .setDescription(message.replace(`{user}`, `${member.user.tag}`));

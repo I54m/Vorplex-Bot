@@ -35,7 +35,7 @@ module.exports.run = async (bot, message, args) => {
     });
     user = `<@${toclear.id}>`;
   }
-  let clearEmbed = new Discord.RichEmbed()
+  let clearEmbed = new Discord.MessageEmbed()
   .setDescription("~~Clear~~")
   .setColor("#e5de16")
   .addField(`Channel Cleared`, channelcleared)
