@@ -1,30 +1,57 @@
+const { EmbedBuilder, PermissionsBitField } = require("discord.js");
 const botconfig = require("./../botconfig.json");
-const Discord = require("discord.js");
 
 module.exports.run = async (bot, message, args) => {
-    let embedColour = botconfig.embedColour;
-    let bUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-    if (!bUser) return message.channel.send("Couldn't find user!");
-    let bReason = args.join(" ").slice(22);
-    if (!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send("Sorry you can't do that!");
-    if (bUser.hasPermission("MANAGE_MESSAGES")) return message.channel.send("That person can't be banned!");
-    let banEmbed = new Discord.RichEmbed()
-        .setDescription("~~Ban~~")
+
+    // Permission check
+    if (!message.member.permissions.has(PermissionsBitField.Flags.BAN_MEMBERS))
+        return message.channel.send("Sorry you can't do that!");
+
+    // Get the target member (v14 method)
+    const bUser =
+        message.mentions.members.first() ||
+        message.guild.members.cache.get(args[0]);
+
+    if (!bUser)
+        return message.channel.send("Couldn't find user!");
+
+    // Prevent banning staff
+    if (bUser.permissions.has(PermissionsBitField.Flags.MANAGE_MESSAGES))
+        return message.channel.send("That person can't be banned!");
+
+    // Reason
+    const bReason = args.slice(1).join(" ") || "No reason provided";
+
+    // Build log embed
+    const banEmbed = new EmbedBuilder()
+        .setDescription("Ban")
         .setColor("#bc0000")
-        .addField("Banned User", `${bUser} with ID ${bUser.id}`)
-        .addField("Banned By", `<@${message.author.id}> with Id ${message.author.id}`)
-        .addField("Banned in", message.channel)
-        .addField("Time", message.createdAt);
-    if (bReason) {
-        banEmbed.addField("Reason", bReason);
-    }
-    let incidentschannel = message.guild.channels.find(`name`, botconfig.incidentschannel);
-    if (!incidentschannel) return message.channel.send("Couldn't find incidents channel!");
-    message.delete().catch(O_o => {});
-    message.guild.member(bUser).ban(bReason);
-    incidentschannel.send(banEmbed);
-    return;
-}
+        .addFields(
+            { name: "Banned User", value: `${bUser} (ID: ${bUser.id})` },
+            { name: "Banned By", value: `<@${message.author.id}> (ID: ${message.author.id})` },
+            { name: "Banned in", value: `${message.channel}` },
+            { name: "Time", value: `${message.createdAt}` },
+            { name: "Reason", value: bReason }
+        );
+
+    // Find incidents log channel
+    const incidentschannel = message.guild.channels.cache.find(
+        ch => ch.name === botconfig.incidentschannel
+    );
+
+    if (!incidentschannel)
+        return message.channel.send("Couldn't find incidents channel!");
+
+    // Delete the command message
+    message.delete().catch(() => {});
+
+    // Perform ban
+    await bUser.ban({ reason: bReason });
+
+    // Log the ban
+    incidentschannel.send({ embeds: [banEmbed] });
+};
+
 
 module.exports.help = {
     name: "ban",

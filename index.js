@@ -1,8 +1,16 @@
 const botconfig = require("./botconfig.json");
 const Discord = require("discord.js");
+const { Client, GatewayIntentBits, Partials } = require("discord.js");
 const fs = require("fs");
 const { exit, release } = require("process");
-const bot = new Discord.Client({ disableEveryone: false });
+const bot = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,            // allows joining servers
+        GatewayIntentBits.GuildMessages,     // allows reading messages in guilds
+        GatewayIntentBits.MessageContent     // required to read message.content
+    ],
+    partials: [Partials.Channel]             // optional but safe for your DM checks
+});
 bot.commands = new Discord.Collection();
 
 fs.readdir("./commands/", (err, files) => {
@@ -38,9 +46,9 @@ fs.readdir("./events/", (err, files) => {
     })
 })
 
-bot.on("message", async message => {
+bot.on("messageCreate", async message => {
     if (message.author.bot) return;
-    if (message.channel.type === "dm") return message.reply("Please do not private message me!!");
+    if (message.channel.type === 1) return message.reply("Please do not private message me!!");
 
     let prefix = botconfig.prefix;
     let messageArray = message.content.split(" ");
@@ -52,7 +60,8 @@ bot.on("message", async message => {
     if (commandfile) commandfile.run(bot, message, args);
 });
 
-bot.login(botconfig.token).catch(() => {
-    console.log(`Unable to login, token: ${botconfig.token} was rejected by discord auth servers!`);
+bot.login(botconfig.token).catch((err) => {
+    console.log("Error occurred while logging in!");
+    console.log(err);
     exit;
 });

@@ -1,49 +1,61 @@
+const { EmbedBuilder, PermissionsBitField } = require("discord.js");
 const botconfig = require("./../botconfig.json");
-const Discord = require("discord.js");
-
 
 module.exports.run = async (bot, message, args) => {
 
-  if (!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply("Sorry You can't do that!");
-  if (!args[0]) return message.reply(`You need to specify an amount of messages to clear: ${botconfig.prefix}clear <number of messages> [user]`);
-  if (isNaN(args[0])) return message.reply(`${args[0]} is not a number of messages!`);
-  args[0]++;
-  if (args[0] >= 100){
-   args[0] = 99;
-  }
-  let incidentschannel = message.guild.channels.find("name", botconfig.incidentschannel);
-  let channelcleared = message.channel;
-  let clearer = message.member;
-  let user;
-  if (!args[1]){
-    message.channel.bulkDelete(args[0]).catch(error =>{
-       message.channel.send(`ERROR: ${error}`);
-       return;
-      }).then(() =>{
-      message.channel.send(`Cleared ${(args[0] -1)} messages.`).then(msg => msg.delete(5000));
-    });
-    user = "all";
-  } else {
-    let toclear = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[1]));
-    if(!toclear) return message.reply("couldn't find user!");
-    const fetched = await message.channel.fetchMessages({limit: args[0]});
-    const messagestoclear = fetched.filter(messagetoclear => messagetoclear.author.id == toclear.id);
-    message.channel.bulkDelete(messagestoclear).catch(error => {
-      message.channel.send(`ERROR: ${error}`);
-    }).then(() =>{
-      message.channel.send(`Cleared ${(args[0] -1)} messages.`).then(msg => msg.delete(5000));
-    });
-    user = `<@${toclear.id}>`;
-  }
-  let clearEmbed = new Discord.RichEmbed()
-  .setDescription("~~Clear~~")
-  .setColor("#e5de16")
-  .addField(`Channel Cleared`, channelcleared)
-  .addField(`Cleared By`, `<@${clearer.id}>`)
-  .addField(`Amount Cleared`, (args[0] -1))
-  .addField(`User Cleared`, user);
-  incidentschannel.send(clearEmbed);
-}
+    if (!message.member.permissions.has(PermissionsBitField.Flags.MANAGE_MESSAGES))
+        return message.reply("Sorry you can't do that!");
+
+    if (!args[0]) 
+        return message.reply(`You need to specify an amount of messages to clear: ${botconfig.prefix}clear <number of messages> [user]`);
+
+    if (isNaN(args[0])) 
+        return message.reply(`${args[0]} is not a number of messages!`);
+
+    let amount = parseInt(args[0]);
+    if (amount > 99) amount = 99; // Discord limits bulkDelete to 100 messages
+
+    const incidentschannel = message.guild.channels.cache.find(ch => ch.name === botconfig.incidentschannel);
+    if (!incidentschannel) return message.channel.send("Couldn't find incidents channel!");
+
+    const channelcleared = message.channel;
+    const clearer = message.member;
+    let user = "all";
+
+    if (!args[1]) {
+        // Clear messages without user filter
+        await message.channel.bulkDelete(amount + 1, true)
+            .catch(err => message.channel.send(`ERROR: ${err}`));
+        message.channel.send(`Cleared ${amount} messages.`)
+            .then(msg => setTimeout(() => msg.delete(), 5000));
+    } else {
+        // Clear messages from a specific user
+        const toclear = message.mentions.members.first() || message.guild.members.cache.get(args[1]);
+        if (!toclear) return message.reply("Couldn't find user!");
+
+        const fetched = await message.channel.messages.fetch({ limit: amount + 1 });
+        const messagestoclear = fetched.filter(msg => msg.author.id === toclear.id);
+        await message.channel.bulkDelete(messagestoclear, true)
+            .catch(err => message.channel.send(`ERROR: ${err}`));
+        message.channel.send(`Cleared ${messagestoclear.size} messages.`)
+            .then(msg => setTimeout(() => msg.delete(), 5000));
+
+        user = `<@${toclear.id}>`;
+    }
+
+    const clearEmbed = new EmbedBuilder()
+        .setDescription("Clear")
+        .setColor("#e5de16")
+        .addFields(
+            { name: "Channel Cleared", value: `${channelcleared}` },
+            { name: "Cleared By", value: `<@${clearer.id}>` },
+            { name: "Amount Cleared", value: `${amount}` },
+            { name: "User Cleared", value: user }
+        );
+
+    incidentschannel.send({ embeds: [clearEmbed] });
+};
+
 
 module.exports.help = {
   name: "clear",

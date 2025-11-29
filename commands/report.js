@@ -1,29 +1,32 @@
+const { EmbedBuilder } = require("discord.js");
 const botconfig = require("./../botconfig.json");
-const Discord = require("discord.js");
 
-module.exports.run = async (bot, message, args) =>{//report maybe make it so they react to the message that they want to report
-  let embedColour = botconfig.embedColour;
-  let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-  if (!rUser)return message.channel.send("Couldn't find user!");
-  let reason = args.join(" ").slice(22);
-  let reportEmbed = new Discord.RichEmbed()
-  .setDescription("Reports")
-  .setColor(`${embedColour}`)
-  .addField("Reported User", `${rUser} with ID: ${rUser.id}`)
-  .addField("Reported By", `${message.author} with ID: ${message.author.id}`)
-  .addField("Channel", message.channel)
-  .addField("Time", message.createdAt)
-  .addField("Reason", reason);
-  let reportschannel = message.guild.channels.find(`name`, botconfig.reportschannel);
-  if(!reportschannel) return message.channel.send("Couldn't find reports channel!");
-  message.delete().catch(O_o=>{});
-  reportschannel.send(reportEmbed);
-  return;
-}
+module.exports.run = async (bot, message, args) => {
+    const rUser = message.guild.members.cache.get(args[0]) || message.mentions.members.first();
+    if (!rUser) return message.channel.send("Couldn't find user!");
+
+    const reason = args.slice(1).join(" ") || "No reason provided";
+    const reportEmbed = new EmbedBuilder()
+        .setDescription("Reports")
+        .setColor(botconfig.embedColour)
+        .addFields(
+            { name: "Reported User", value: `${rUser} with ID: ${rUser.id}` },
+            { name: "Reported By", value: `${message.author} with ID: ${message.author.id}` },
+            { name: "Channel", value: `${message.channel}` },
+            { name: "Time", value: `${message.createdAt}` },
+            { name: "Reason", value: reason }
+        );
+
+    const reportsChannel = message.guild.channels.cache.find(ch => ch.name === botconfig.reportschannel);
+    if (!reportsChannel) return message.channel.send("Couldn't find reports channel!");
+
+    await message.delete().catch(() => {});
+    reportsChannel.send({ embeds: [reportEmbed] });
+};
 
 module.exports.help = {
-  name: "report",
-  permission: "NONE",
-  usage: "<@user> <reason>",
-  description: "Report a player for breaking the rules."
-}
+    name: "report",
+    permission: "NONE",
+    usage: "<@user> <reason>",
+    description: "Report a player for breaking the rules."
+};

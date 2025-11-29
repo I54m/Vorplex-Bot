@@ -1,23 +1,27 @@
+const { EmbedBuilder } = require("discord.js");
 const botconfig = require("./../botconfig.json");
-const Discord = require("discord.js");
 
-module.exports.run = async (bot, message, args) =>{
-  let embedColour = botconfig.embedColour;
-  let sicon = message.guild.iconURL;
-  let serverembed = new Discord.RichEmbed()
-  .setDescription("Server Information")
-  .setColor(`${embedColour}`)
-  .setThumbnail(sicon)
-  .addField("Server Name", message.guild.name)
-  .addField("Created On", message.guild.createdAt)
-  .addField("You Joined", message.member.joinedAt)
-  .addField("Total Members", message.guild.memberCount);
-  return message.channel.send(serverembed);
-}
+module.exports.run = async (bot, message, args) => {
+    const embedColour = botconfig.embedColour;
+    const sicon = message.guild.iconURL();
+
+    const serverEmbed = new EmbedBuilder()
+        .setDescription("Server Information")
+        .setColor(embedColour)
+        .setThumbnail(sicon)
+        .addFields(
+            { name: "Server Name", value: message.guild.name, inline: true },
+            { name: "Created On", value: `${message.guild.createdAt}`, inline: true },
+            { name: "You Joined", value: `${message.member.joinedAt}`, inline: true },
+            { name: "Total Members", value: `${message.guild.memberCount}`, inline: true }
+        );
+
+    return message.channel.send({ embeds: [serverEmbed] });
+};
 
 module.exports.help = {
-  name: "serverinfo",
-  permission: "NONE",
-  usage: "",
-  description: "View basic information about the discord server"
-}
+    name: "serverinfo",
+    permission: "NONE",
+    usage: "",
+    description: "View basic information about the discord server"
+};
