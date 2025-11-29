@@ -1,33 +1,32 @@
-const Discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const botconfig = require("./../botconfig.json");
 
 module.exports.run = async (bot, message, args) => {
-    let suggestChannel = message.guild.channels.find("name", botconfig.suggestionschannel);
-    if (!suggestChannel) return message.channel.send(`:x: Could not find the suggestions channel!`);
-    let suggest = args.join(" ").slice(0);
+    const suggestChannel = message.guild.channels.cache.find(ch => ch.name === botconfig.suggestionschannel);
+    if (!suggestChannel) return message.channel.send(":x: Could not find the suggestions channel!");
 
-    if (!suggest) return message.channel.send(`:x:Please use \`${botconfig.prefix}suggest <message>\``);
+    const suggest = args.join(" ");
+    if (!suggest) return message.channel.send(`:x: Please use \`${botconfig.prefix}suggest <message>\``);
 
-    let embed = new Discord.RichEmbed()
+    const embed = new EmbedBuilder()
         .setTitle("Suggestion")
-        .setAuthor(`Left by ${message.author.username}#${message.author.discriminator}`, message.author.displayAvatarURL)
+        .setAuthor({ name: `Left by ${message.author.tag}`, iconURL: message.author.displayAvatarURL() })
+        .setDescription(suggest)
         .setTimestamp()
-        .setDescription(`${suggest}`)
         .setColor(botconfig.embedColour)
-        .setFooter(`© ${message.guild.name}`);
+        .setFooter({ text: `© ${message.guild.name}` });
 
-    message.delete();
-    message.reply("Your suggestion has placed!")
+    await message.delete().catch(() => {});
+    await message.reply("Your suggestion has been placed!").then(msg => setTimeout(() => msg.delete(), 5000));
 
-    suggestChannel.send(embed).then(embedMessage => {
-	  embedMessage.react('👍');
-      embedMessage.react('👎');
-	});
-}
+    const embedMessage = await suggestChannel.send({ embeds: [embed] });
+    await embedMessage.react('👍');
+    await embedMessage.react('👎');
+};
 
 module.exports.help = {
     name: "suggest",
     permission: "NONE",
     usage: "<message>",
     description: "Suggest something to be added to the server!"
-}
+};

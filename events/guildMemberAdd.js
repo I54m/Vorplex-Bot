@@ -1,38 +1,49 @@
-const Discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const botconfig = require("./../botconfig.json");
 const messagelist = require("./../messages.json");
 
 module.exports.run = async (bot, member) => {
-    if (!botconfig.joinrole) return console.log("Unable to find join role in config!");
-    let joinrole = member.guild.roles.find(`name`, botconfig.joinrole);
-    if (!joinrole) return console.log("Unable to find join role!");
-    await (member.addRole(joinrole.id));
+    // // Assign join role
+    // if (!botconfig.joinrole) return console.log("Unable to find join role in config!");
+    // const joinRole = member.guild.roles.cache.find(r => r.name === botconfig.joinrole);
+    // if (!joinRole) return console.log("Unable to find join role!");
+    // await member.roles.add(joinRole).catch(console.error);
 
-    let welcomechannel = member.guild.channels.find(`name`, botconfig.welcomechannel);
-    if (!welcomechannel) return console.log("Unable to find welcome channel!");
-    let embedColour = botconfig.embedColour;
-    let messageArray = messagelist.welcomemessages;
-    let messageNumber = Math.floor(Math.random() * messageArray.length);
-    let message = messageArray[messageNumber];
+    let bicon = bot.user.displayAvatarURL();
+
+    // Get welcome channel
+    const welcomeChannel = member.guild.channels.cache.find(ch => ch.name === botconfig.welcomechannel);
+    if (!welcomeChannel) return console.log("Unable to find welcome channel!");
+
+    // Choose random welcome message
+    const messageArray = messagelist.welcomemessages;
+    let message = messageArray[Math.floor(Math.random() * messageArray.length)];
     if (message.includes("{number}")) {
-        let number = Math.floor(Math.random() * 3678);
-        message = message.replace(`{number}`, `${number}`);
+        const number = Math.floor(Math.random() * 3678);
+        message = message.replace("{number}", `${number}`);
     }
-    let welcomeEmbed = new Discord.RichEmbed()
-        .setTitle(`**Welcome ${member.displayName} to the Vorplex Server Discord!**`)
-        .setColor(`${embedColour}`)
-        .setDescription(message.replace(`{user}`, `${member.user.tag}`));
-    if (member.guild.channels.find(`name`, botconfig.rulesinfochannel))
-        welcomeEmbed.addField("Rules & Info", `${member.guild.channels.find(`name`, botconfig.rulesinfochannel).toString()}`, true);
-    welcomeEmbed
-        .addField("Store", "https://store.vorplex.net", true)
-        .addField("IP", "mc.vorplex.net", true)
-        .addField("MC Version", "1.8+", true)
-        .setThumbnail("https://api.i54m.com/Vorplex/Vorplex-Server-Icon-x1000.png")
-        .setFooter(`Total: ${member.guild.memberCount} members`);
-    welcomechannel.send(welcomeEmbed);
-}
+    message = message.replace("{user}", `${member.user.tag}`);
+
+    // Build embed
+    const welcomeEmbed = new EmbedBuilder()
+        .setTitle(`Welcome ${member.displayName} to the Vorplex Server!`)
+        .setColor(botconfig.embedColour)
+        .setDescription(message)
+        .setThumbnail(bicon)
+        .setFooter({ text: `Total: ${member.guild.memberCount} members` })
+        .addFields(
+            member.guild.channels.cache.find(ch => ch.name === botconfig.rulesinfochannel)
+                ? { name: "Rules & Info", value: `<#${member.guild.channels.cache.find(ch => ch.name === botconfig.rulesinfochannel).id}>`, inline: true }
+                : { name: "\u200B", value: "\u200B" },
+            { name: "Store", value: "https://store.vorplex.net", inline: true },
+            { name: "IP", value: "mc.vorplex.net", inline: true },
+            { name: "MC Version", value: "1.8+", inline: true }
+        );
+
+    // Send embed
+    await welcomeChannel.send({ embeds: [welcomeEmbed] }).catch(console.error);
+};
 
 module.exports.help = {
     name: "guildMemberAdd"
-}
+};

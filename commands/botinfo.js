@@ -1,17 +1,23 @@
+const { EmbedBuilder } = require("discord.js");
 const botconfig = require("./../botconfig.json");
-const Discord = require("discord.js");
 
-module.exports.run = async (bot, message, args) =>{
+module.exports.run = async (bot, message, args) => {
   let embedColour = botconfig.embedColour;
-  let bicon = bot.user.displayAvatarURL;
-  let botembed = new Discord.RichEmbed()
-  .setDescription("Bot Imformation")
-  .setColor(`${embedColour}`)
-  .setThumbnail(bicon)
-  .addField("Bot Name", bot.user.username)
-  .addField("Created On", bot.user.createdAt)
-  .addField("Developer", "54mpenguin");
-  return message.channel.send(botembed);
+
+  let bicon = bot.user.displayAvatarURL();
+
+  const botembed = new EmbedBuilder()
+    .setDescription("Bot Information")
+    .setColor(embedColour)
+    .setThumbnail(bicon)
+    .addFields(
+      { name: "Bot Name", value: bot.user.username },
+      { name: "Created On", value: bot.user.createdAt.toDateString() },
+      { name: "Revived On", value: "Sat Nov 29 2025" },
+      { name: "Developer", value: "I54m" }
+    );
+
+  return message.channel.send({ embeds: [botembed] });
 }
 
 module.exports.help = {
@@ -19,4 +25,4 @@ module.exports.help = {
   permission: "NONE",
   usage: "",
   description: "View simple information about the bot."
-}
+};

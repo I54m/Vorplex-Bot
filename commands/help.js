@@ -1,23 +1,42 @@
+const { EmbedBuilder, PermissionsBitField } = require("discord.js");
 const botconfig = require("./../botconfig.json");
-const Discord = require("discord.js");
-const fs = require("fs");
 
-module.exports.run = async (bot, message, args) =>{
-    let helpEmbed = new Discord.RichEmbed()
+module.exports.run = async (bot, message, args) => {
+
+    const helpEmbed = new EmbedBuilder()
         .setDescription(`Commands <@${message.member.id}> has permission to use`)
         .setColor(botconfig.embedColour)
-        .addField("Key", "<> = required argument [] = optional argument");
+        .addFields({
+            name: "Key",
+            value: "<> = required argument   [] = optional argument"
+        });
 
     bot.commands.forEach((props) => {
-        if (message.member.hasPermission(props.help.permission))
-            helpEmbed.addField(`${botconfig.prefix}${props.help.name} ${props.help.usage}`, `${props.help.description}`);
-    })
-    message.channel.send(helpEmbed);
-}
+
+        // permission "NONE" means everyone can use it
+        if (props.help.permission === "NONE") {
+            helpEmbed.addFields({
+                name: `${botconfig.prefix}${props.help.name} ${props.help.usage}`,
+                value: props.help.description
+            });
+            return;
+        }
+
+        // otherwise check if member has required permission
+        if (message.member.permissions.has(PermissionsBitField.Flags[props.help.permission])) {
+            helpEmbed.addFields({
+                name: `${botconfig.prefix}${props.help.name} ${props.help.usage}`,
+                value: props.help.description
+            });
+        }
+    });
+
+    return message.channel.send({ embeds: [helpEmbed] });
+};
 
 module.exports.help = {
-  name: "help",
-  permission: "NONE",
-  usage: "",
-  description: "View this help menu."
-}
+    name: "help",
+    permission: "NONE",
+    usage: "",
+    description: "View this help menu."
+};
