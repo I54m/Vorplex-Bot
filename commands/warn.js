@@ -43,7 +43,7 @@ module.exports.run = async (bot, message, args) => {
 
         furtherAction = "15m Temp Mute";
         message.channel.send(`<@${wUser.id}> has been temporarily muted for 15 minutes due to 3 warnings!`);
-        
+
     } else if (warns[wUser.id].warns === 4) {
         await wUser.kick("You exceeded 3 warnings!");
         message.channel.send(`<@${wUser.id}> has been kicked for exceeding 3 warnings!`);
