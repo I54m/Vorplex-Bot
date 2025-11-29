@@ -19,7 +19,6 @@ module.exports.run = async (bot, message, args) => {
     // pick actual answer
     let answerNumber = Math.floor(Math.random() * answerArray.length);
     let answer = answerArray[answerNumber];
-
     const answerEmbed = new EmbedBuilder()
         .setDescription(`<@${user.id}> ${question}`)
         .setColor(embedColor)
