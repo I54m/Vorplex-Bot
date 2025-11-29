@@ -3,6 +3,7 @@ const Discord = require("discord.js");
 const { Client, GatewayIntentBits, Partials } = require("discord.js");
 const fs = require("fs");
 const { exit, release } = require("process");
+require('dotenv').config();
 const bot = new Client({
     intents: [
         GatewayIntentBits.Guilds,            // allows joining servers
@@ -60,7 +61,7 @@ bot.on("messageCreate", async message => {
     if (commandfile) commandfile.run(bot, message, args);
 });
 
-bot.login(botconfig.token).catch((err) => {
+bot.login(process.env.DISCORD_BOT_TOKEN).catch((err) => {
     console.log("Error occurred while logging in!");
     console.log(err);
     exit;
