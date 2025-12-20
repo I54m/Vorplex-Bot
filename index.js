@@ -66,3 +66,23 @@ bot.login(process.env.DISCORD_BOT_TOKEN).catch((err) => {
     console.log(err);
     exit;
 });
+
+
+process.on("unhandledRejection", (reason, promise) => {
+    console.error("Unhandled Rejection:", reason);
+    process.exit(1);
+});
+
+process.on("uncaughtException", (err) => {
+    console.error("Uncaught Exception:", err);
+    process.exit(1);
+});
+
+process.on("SIGTERM", async () => {
+    console.log("SIGTERM received, shutting down cleanly...");
+    try {
+        await bot.destroy();
+    } finally {
+        process.exit(0);
+    }
+});
