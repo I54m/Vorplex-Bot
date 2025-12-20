@@ -12,6 +12,26 @@ const bot = new Client({
     ],
     partials: [Partials.Channel]             // optional but safe for your DM checks
 });
+
+process.on("unhandledRejection", (reason, promise) => {
+    console.error("Unhandled Rejection:", reason);
+    process.exit(1);
+});
+
+process.on("uncaughtException", (err) => {
+    console.error("Uncaught Exception:", err);
+    process.exit(1);
+});
+
+process.on("SIGTERM", async () => {
+    console.log("SIGTERM received, shutting down cleanly...");
+    try {
+        await bot.destroy();
+    } finally {
+        process.exit(0);
+    }
+});
+
 bot.commands = new Discord.Collection();
 
 fs.readdir("./commands/", (err, files) => {
@@ -49,7 +69,7 @@ fs.readdir("./events/", (err, files) => {
 
 bot.on("messageCreate", async message => {
     if (message.author.bot) return;
-    if (message.channel.type === 1) return message.reply("Please do not private message me!!");
+    if (message.channel.type === ChannelType.DM) return message.reply("Please do not private message me!!");
 
     let prefix = botconfig.prefix;
     let messageArray = message.content.split(" ");
@@ -61,28 +81,4 @@ bot.on("messageCreate", async message => {
     if (commandfile) commandfile.run(bot, message, args);
 });
 
-bot.login(process.env.DISCORD_BOT_TOKEN).catch((err) => {
-    console.log("Error occurred while logging in!");
-    console.log(err);
-    exit;
-});
-
-
-process.on("unhandledRejection", (reason, promise) => {
-    console.error("Unhandled Rejection:", reason);
-    process.exit(1);
-});
-
-process.on("uncaughtException", (err) => {
-    console.error("Uncaught Exception:", err);
-    process.exit(1);
-});
-
-process.on("SIGTERM", async () => {
-    console.log("SIGTERM received, shutting down cleanly...");
-    try {
-        await bot.destroy();
-    } finally {
-        process.exit(0);
-    }
-});
+bot.login(process.env.DISCORD_BOT_TOKEN);
