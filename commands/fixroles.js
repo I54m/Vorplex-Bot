@@ -16,8 +16,16 @@ module.exports.run = async (bot, message, args) => {
     if (!message.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageRoles))
         return message.reply("I don't have permission to manage roles!");
 
+    if (joinRole.position >= message.guild.members.me.roles.highest.position) {
+       return message.reply("Join role is higher than my highest role!");
+    }
+    
     inprogress = true;
     message.reply("Processing now, this may take a while for large servers...");
+
+
+
+    await message.guild.members.fetch();
 
     for (const member of message.guild.members.cache.values()) {
         if (!member.roles.cache.has(joinRole.id)) {
