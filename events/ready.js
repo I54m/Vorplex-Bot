@@ -14,6 +14,9 @@ module.exports.run = async (bot) => {
     // Set random status
     await setRandomStatus(bot);
     setInterval(() => setRandomStatus(bot), 10000);
+
+    //broadcast startup success
+    console.log("Bot started successfully.");
 }
 
 module.exports.help = {
