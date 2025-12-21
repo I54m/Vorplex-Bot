@@ -8,6 +8,7 @@ const bot = new Client({
     intents: [
         GatewayIntentBits.Guilds,            // allows joining servers
         GatewayIntentBits.GuildMessages,     // allows reading messages in guilds
+        GatewayIntentBits.GuildMembers,      // allows reading member info
         GatewayIntentBits.MessageContent     // required to read message.content
     ],
     partials: [Partials.Channel]             // optional but safe for your DM checks
