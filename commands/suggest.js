@@ -17,7 +17,7 @@ module.exports.run = async (bot, message, args) => {
         .setFooter({ text: `© ${message.guild.name}` });
 
     await message.delete().catch(() => {});
-    await message.reply("Your suggestion has been placed!").then(msg => setTimeout(() => msg.delete(), 5000));
+    await message.channel.send("Your suggestion has been placed!").then(msg => setTimeout(() => msg.delete(), 5000));
 
     const embedMessage = await suggestChannel.send({ embeds: [embed] });
     await embedMessage.react('👍');
