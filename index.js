@@ -1,6 +1,6 @@
 const botconfig = require("./botconfig.json");
 const Discord = require("discord.js");
-const { Client, GatewayIntentBits, Partials } = require("discord.js");
+const { Client, GatewayIntentBits, Partials, ChannelType } = require("discord.js");
 const fs = require("fs");
 const { exit, release } = require("process");
 require('dotenv').config();
@@ -69,7 +69,10 @@ fs.readdir("./events/", (err, files) => {
 
 bot.on("messageCreate", async message => {
     if (message.author.bot) return;
-    if (message.channel.type === ChannelType.DM) return message.reply("Please do not private message me!!");
+    if (message.channel.type === ChannelType.DM){
+        await message.reply("Please do not private message me!!");
+        return;
+    }
 
     let prefix = botconfig.prefix;
     let messageArray = message.content.split(" ");
