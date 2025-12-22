@@ -26,7 +26,7 @@ module.exports.run = async (bot, member) => {
 
     // Build embed
     const welcomeEmbed = new EmbedBuilder()
-        .setTitle(`Welcome ${member.displayName} to the Vorplex Server!`)
+        .setTitle(`Welcome ${member.displayName} to the Vorplex Discord Server!`)
         .setColor(botconfig.embedColour)
         .setDescription(message)
         .setThumbnail(bicon)
@@ -37,7 +37,7 @@ module.exports.run = async (bot, member) => {
                 : { name: "\u200B", value: "\u200B" },
             { name: "Store", value: "https://store.vorplex.net", inline: true },
             { name: "IP", value: "mc.vorplex.net", inline: true },
-            { name: "MC Version", value: "1.8+", inline: true }
+            { name: "MC Version", value: "1.20+", inline: true }
         );
 
     // Send embed
