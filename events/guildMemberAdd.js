@@ -3,11 +3,11 @@ const botconfig = require("./../botconfig.json");
 const messagelist = require("./../messages.json");
 
 module.exports.run = async (bot, member) => {
-    // // Assign join role
-    // if (!botconfig.joinrole) return console.log("Unable to find join role in config!");
-    // const joinRole = member.guild.roles.cache.find(r => r.name === botconfig.joinrole);
-    // if (!joinRole) return console.log("Unable to find join role!");
-    // await member.roles.add(joinRole).catch(console.error);
+    // Assign join role
+    if (!botconfig.joinrole) return console.log("Unable to find join role in config!");
+    const joinRole = member.guild.roles.cache.find(r => r.name === botconfig.joinrole);
+    if (!joinRole) return console.log("Unable to find join role!");
+    await member.roles.add(joinRole).catch(console.error);
 
     let bicon = bot.user.displayAvatarURL();
 
