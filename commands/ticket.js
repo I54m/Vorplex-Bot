@@ -35,7 +35,7 @@ module.exports.run = async (bot, message, args) => {
     ].filter(Boolean));
 
     const embed = new EmbedBuilder()
-        .setDescription(`Dear ${message.author},\n\nThank you for reaching out to our staff team! We will get back to you as soon as possible. In the mean time please provide as much information as you can so that we can help you better! **Pinging staff will not help you get noticed, just be paitent will be with you as soon as we can!!**\nnTo close this ticket, please use the command \`${botconfig.prefix}close\`.`)
+        .setDescription(`Dear ${message.author},\n\nThank you for reaching out to our staff team! We will get back to you as soon as possible. In the mean time please provide as much information as you can so that we can help you better! **Pinging staff will not help you get noticed, just be paitent will be with you as soon as we can!!**\nTo close this ticket, please use the command \`${botconfig.prefix}close\`.`)
         .addFields({ name: "Subject", value: subject })
         .setTimestamp()
         .setFooter({ text: `© ${message.guild.name}`, iconURL: message.guild.iconURL() })
