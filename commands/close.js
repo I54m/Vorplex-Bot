@@ -6,7 +6,9 @@ const ms = require("ms");
 module.exports.run = async (bot, message, args) => {
     const tickets = JSON.parse(fs.readFileSync("./tickets.json", "utf8"));
 
-    if (!message.member.permissions.has(PermissionsBitField.Flags.ManageMessages))
+    let potentialTicket = "ticket-" + message.author.id.substring(0, 8);
+
+    if (!message.member.permissions.has(PermissionsBitField.Flags.ManageMessages) && message.channel.name !== potentialTicket)
         return message.reply("Sorry, you can't do that!");
 
     if (!message.channel.name.startsWith("ticket-"))
