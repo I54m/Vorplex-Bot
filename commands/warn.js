@@ -7,7 +7,7 @@ let warns = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));
 
 module.exports.run = async (bot, message, args) => {
 
-    if (!message.member.permissions.has(PermissionsBitField.Flags.ManageMembers))
+    if (!message.member.permissions.has(PermissionsBitField.Flags.ManageMessages))
         return message.reply("You can't do that!");
 
     const wUser = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
