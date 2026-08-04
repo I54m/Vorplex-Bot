@@ -46,6 +46,7 @@ coverage/
 # IDEs and Editors
 .idea/
 .vscode/
+.vs/
 *.suo
 *.ntvs*
 *.njsproj
