@@ -1,0 +1,33 @@
+{
+  "name": "vorplex-bot",
+  "version": "2.0.0",
+  "description": "Discord Bot for Vorplex",
+  "homepage": "https://github.com/I54m/Vorplex-Bot#readme",
+  "bugs": {
+    "url": "https://github.com/I54m/Vorplex-Bot/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/I54m/Vorplex-Bot.git"
+  },
+  "license": "ISC",
+  "author": "I54m",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.27.0",
+    "dotenv": "^17.4.2",
+    "winston": "^3.19.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "tsx": "^4.23.5",
+    "typescript": "^7.0.2"
+  }
+}
